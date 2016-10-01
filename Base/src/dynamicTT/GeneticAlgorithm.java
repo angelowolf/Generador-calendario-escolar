@@ -16,41 +16,41 @@ public class GeneticAlgorithm {
     //static HashMap<Integer,TimeTable> ttscore=new HashMap();
     private static TimeTable GlobalBestTimetable;
     private static int min = 1000;
-    private static ArrayList<String> weekDayNames = new ArrayList<>();
-    private static ArrayList<String> lectureTimings = new ArrayList<>();
+    private static ArrayList<String> nombresDiasSemana = new ArrayList<>();
+    private static ArrayList<String> horariosDictados = new ArrayList<>();
 
-    public static void populationAccepter(ArrayList<TimeTable> timeTableCollection) throws IOException {
+    public static void receptorPoblacion(ArrayList<TimeTable> timeTableCollection) throws IOException {
         // randomly got population from the initialization class
         Iterator<TimeTable> timetableIterator = timeTableCollection.iterator();
         for (Iterator<TimeTable> iterator = timeTableCollection.iterator(); iterator.hasNext();) {
             TimeTable tt = iterator.next();
             fitness(tt);
         }
-        createWeek();
-        createLectureTime();
-        selection(timeTableCollection);
+        crearSemana();
+        crearHorarioDictado();
+        seleccion(timeTableCollection);
     }
 
-    private static void createWeek() {
+    private static void crearSemana() {
         String[] weekDaysName = new DateFormatSymbols().getWeekdays();
         for (int i = 1; i < weekDaysName.length; i++) {
-            System.out.println("weekday = " + weekDaysName[i]);
+            System.out.println("día de semana = " + weekDaysName[i]);
             //if(!(weekDaysName[i].equalsIgnoreCase("Sunday"))){
             if (!(i == Calendar.SUNDAY)) {
-                weekDayNames.add(weekDaysName[i]);
+                nombresDiasSemana.add(weekDaysName[i]);
             }
         }
     }
 
-    private static void createLectureTime() {
+    private static void crearHorarioDictado() {
         for (int i = 9; i < 16; i++) {
             //if(i!=12){
-            lectureTimings.add(i + ":00" + " TO " + (i + 1) + ":00");
+            horariosDictados.add(i + ":00" + " A " + (i + 1) + ":00");
             //}			
         }
     }
 
-    public static void selection(ArrayList<TimeTable> timetables) throws IOException {
+    public static void seleccion(ArrayList<TimeTable> timetables) throws IOException {
         int iterations = 50;
         int i = 1;
         ArrayList<TimeTable> mutants = new ArrayList<>();
@@ -81,7 +81,7 @@ public class GeneticAlgorithm {
                 display();
                 System.exit(0);
             } else {
-                System.out.println("Iteration :" + i);
+                System.out.println("Iteración :" + i);
                 i++;
                 iterations--;
                 //timetables.remove(GlobalBestTimetable);			
@@ -167,7 +167,7 @@ public class GeneticAlgorithm {
             //ttscore.put(score,timetable);
             //System.out.println("\nScore : "+score);
         }
-        System.out.println("Score..................................." + timetable.getFittness());
+        System.out.println("Puntaje..................................." + timetable.getFittness());
 //		Iterator iterator = ttscore.keySet().iterator(); 
 //		while (iterator.hasNext()) {  
 //			   Aula key = (Aula) iterator.next();  
@@ -250,7 +250,7 @@ public class GeneticAlgorithm {
             writer.append("\n\nRoom Number: " + room.getID());
             ArrayList<Dia> weekdays = room.getSemana().getDiasSemana();
             Iterator<Dia> daysIterator = weekdays.iterator();
-            Iterator<String> lectTimeItr = lectureTimings.iterator();
+            Iterator<String> lectTimeItr = horariosDictados.iterator();
             writer.append("\n\nTimings: ,");
             while (lectTimeItr.hasNext()) {
                 writer.append(lectTimeItr.next() + ",");
@@ -259,7 +259,7 @@ public class GeneticAlgorithm {
             writer.append("\nDays\n");
             while (daysIterator.hasNext()) {
                 Dia day = daysIterator.next();
-                writer.append(/*Dia: */"" + weekDayNames.get(i) + ",");
+                writer.append(/*Dia: */"" + nombresDiasSemana.get(i) + ",");
                 ArrayList<TimeSlot> timeslots = day.getTimeSlot();
                 i++;
                 for (int k = 0; k < timeslots.size(); k++) {
@@ -286,17 +286,17 @@ public class GeneticAlgorithm {
     private static void display() {
         // TODO Auto-generated method stub
         int i = 0, j = 0;
-        System.out.println("Minimum : " + min);
-        System.out.println("\nScore : " + GlobalBestTimetable.getFittness());
+        System.out.println("Minimo : " + min);
+        System.out.println("\nPuntaje : " + GlobalBestTimetable.getFittness());
         ArrayList<Aula> allrooms = GlobalBestTimetable.getAulas();
         Iterator<Aula> allroomsIterator = allrooms.iterator();
         while (allroomsIterator.hasNext()) {
             Aula room = allroomsIterator.next();
-            System.out.println("\nRoom: " + room.getID());
+            System.out.println("\nAula: " + room.getID());
             ArrayList<Dia> weekdays = room.getSemana().getDiasSemana();
             Iterator<Dia> daysIterator = weekdays.iterator();
-            Iterator<String> lectTimeItr = lectureTimings.iterator();
-            System.out.print("\nTimings:    ");
+            Iterator<String> lectTimeItr = horariosDictados.iterator();
+            System.out.print("\nHorarios:    ");
             while (lectTimeItr.hasNext()) {
                 System.out.print(" " + lectTimeItr.next() + " ");
             }
@@ -304,21 +304,21 @@ public class GeneticAlgorithm {
             System.out.print("\n");
             while (daysIterator.hasNext()) {
                 Dia day = daysIterator.next();
-                System.out.print("Day: " + weekDayNames.get(i));
+                System.out.print("Día: " + nombresDiasSemana.get(i));
                 ArrayList<TimeSlot> timeslots = day.getTimeSlot();
                 //Iterator<TimeSlot> timeslotIterator= timeslots.iterator();
                 i++;
                 //System.out.print(""+day.getName()+": ");
                 for (int k = 0; k < timeslots.size(); k++) {
                     if (k == 3) {
-                        System.out.print("       BREAK       ");
+                        System.out.print("       RECESO       ");
                     }
                     TimeSlot lecture = timeslots.get(k);
                     if (lecture.getDictado() != null) {
-                        System.out.print(" (Subject: " + lecture.getDictado().getMateria() + " --> Professor: " + lecture.getDictado().getDocente().getNombre() + " GrpName: " + lecture.getDictado().getGrupoEstudiantes().getNombre() + ")");
+                        System.out.print(" (Materia: " + lecture.getDictado().getMateria() + " --> Docente: " + lecture.getDictado().getDocente().getNombre() + " Nombre Grupo: " + lecture.getDictado().getGrupoEstudiantes().getNombre() + ")");
 //                        System.out.print("  (" + lecture.getDictado().getSubject() + "#" + lecture.getDictado().getProfessor().getProfessorName() + "#" + lecture.getDictado().getStudentGroup().getName().split("/")[0] + ")");
                     } else {
-                        System.out.print(" FREE LECTURE ");
+                        System.out.print(" SIN DICTADO ");
                     }
                 }
                 System.out.print("\n");
