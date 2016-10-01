@@ -2,7 +2,7 @@ package dynamicTT;
 
 import java.util.ArrayList;
 
-public class Day {
+public class Dia {
 	//private String name;
 	private ArrayList <TimeSlot> timeSlot=new ArrayList();
 	
@@ -14,7 +14,7 @@ public class Day {
 		this.timeSlot = timeSlot;
 	}
 
-	public Day(String inputname){
+	public Dia(String inputname){
 //		this.setName(inputname);
 		for(int i=9; i<16; i++){
 			if(i!=12){

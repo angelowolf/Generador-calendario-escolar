@@ -7,21 +7,21 @@ import java.util.Iterator;
 import java.util.Stack;
 
 public class TimeTable {
-	private ArrayList<ClassRoom> rooms = new ArrayList<ClassRoom>();
+	private ArrayList<Aula> aulas = new ArrayList<Aula>();
 	private int fittness;
-	private ArrayList<Lecture> classes=new ArrayList<>();
-	private ArrayList<StudentGroups> studentGroups=new ArrayList<>(); 
-	private ArrayList<ClassRoom> practicalRooms = new ArrayList<ClassRoom>();
-	private ArrayList<ClassRoom> theoryRooms = new ArrayList<ClassRoom>();
-	private ArrayList<StudentGroups> theoryStudentGroups=new ArrayList<>(); 
-	private ArrayList<StudentGroups> practicalStudentGroups=new ArrayList<>(); 
-	private HashMap<Combination, Week> personalTimeTable= new HashMap<Combination, Week>();
+	private ArrayList<Dictado> clases=new ArrayList<>();
+	private ArrayList<GruposAlumnos> gruposAlumnos=new ArrayList<>(); 
+	private ArrayList<Aula> aulasPracticas = new ArrayList<Aula>();
+	private ArrayList<Aula> aulasTeoricas = new ArrayList<Aula>();
+	private ArrayList<GruposAlumnos> gruposAlumnosTeoricos=new ArrayList<>(); 
+	private ArrayList<GruposAlumnos> gruposAlumnosPracticos=new ArrayList<>(); 
+	private HashMap<Combinacion, Semana> personalTimeTable= new HashMap<Combinacion, Semana>();
 	//private ArrayList<Professor> professors=new ArrayList<>();
 	//adds more rooms to timetable
 
-	public TimeTable(ArrayList<ClassRoom> classroom, ArrayList<Lecture> lectures){//, ArrayList<Professor> professors){
-		this.rooms=classroom;
-		this.classes=lectures;
+	public TimeTable(ArrayList<Aula> classroom, ArrayList<Dictado> lectures){//, ArrayList<Professor> professors){
+		this.aulas=classroom;
+		this.clases=lectures;
 		this.fittness=999;
 //		this.professors=professors;
 	}
@@ -40,56 +40,56 @@ public class TimeTable {
 		this.fittness = fittness;
 	}
 
-	public void addStudentGroups(ArrayList<StudentGroups> studentgrps) {
+	public void agregarGruposAlumnos(ArrayList<GruposAlumnos> studentgrps) {
 		// TODO Auto-generated method stub
-		studentGroups.addAll(studentgrps);
+		gruposAlumnos.addAll(studentgrps);
 	}
 	
 	public void initializeTimeTable(){
-		for (Iterator<ClassRoom> roomsIterator = rooms.iterator(); roomsIterator.hasNext();) {
-			ClassRoom room = roomsIterator.next();
-			if(room.isLaboratory()){
-				practicalRooms.add(room);
+		for (Iterator<Aula> roomsIterator = aulas.iterator(); roomsIterator.hasNext();) {
+			Aula room = roomsIterator.next();
+			if(room.esLaboratorio()){
+				aulasPracticas.add(room);
 			}
 			else{
-				theoryRooms.add(room);
+				aulasTeoricas.add(room);
 			}
 		}
-		for (Iterator<StudentGroups> studentGroupIterator = studentGroups.iterator(); studentGroupIterator.hasNext();) {
-			StudentGroups studentGroup = studentGroupIterator.next();
-			if(studentGroup.isPractical()){
-				practicalStudentGroups.add(studentGroup);
+		for (Iterator<GruposAlumnos> studentGroupIterator = gruposAlumnos.iterator(); studentGroupIterator.hasNext();) {
+			GruposAlumnos studentGroup = studentGroupIterator.next();
+			if(studentGroup.isPractica()){
+				gruposAlumnosPracticos.add(studentGroup);
 			}
 			else{
-				theoryStudentGroups.add(studentGroup);
+				gruposAlumnosTeoricos.add(studentGroup);
 			}
 		}
-		rooms.clear();
+		aulas.clear();
 		//studentGroups.clear();
-		setTimeTable(practicalStudentGroups, practicalRooms, "practical");
-		setTimeTable(theoryStudentGroups, theoryRooms, "theory");
-		rooms.addAll(practicalRooms);
-		rooms.addAll(theoryRooms);
-		//studentGroups.addAll(practicalStudentGroups);
-		//studentGroups.addAll(theoryStudentGroups);
+		setTimeTable(gruposAlumnosPracticos, aulasPracticas, "practical");
+		setTimeTable(gruposAlumnosTeoricos, aulasTeoricas, "theory");
+		aulas.addAll(aulasPracticas);
+		aulas.addAll(aulasTeoricas);
+		//studentGroups.addAll(gruposAlumnosPracticos);
+		//studentGroups.addAll(gruposAlumnosTeoricos);
 	}
 	
-	public void setTimeTable(ArrayList<StudentGroups> studentGroups2, ArrayList<ClassRoom> rooms2, String string) {
+	public void setTimeTable(ArrayList<GruposAlumnos> studentGroups2, ArrayList<Aula> rooms2, String string) {
 		// TODO Auto-generated method stub
 		Collections.shuffle(studentGroups2);
-		Stack<Lecture> lecturesStack=new Stack<Lecture>();
-		for (Iterator<StudentGroups> sdtGrpIterator = studentGroups2.iterator(); sdtGrpIterator.hasNext();) {			
-			StudentGroups studentGrp = sdtGrpIterator.next();
-			String subject = studentGrp.getSubjectName();
-			int noOfLectures = studentGrp.getNoOfLecturePerWeek();
+		Stack<Dictado> lecturesStack=new Stack<Dictado>();
+		for (Iterator<GruposAlumnos> sdtGrpIterator = studentGroups2.iterator(); sdtGrpIterator.hasNext();) {			
+			GruposAlumnos studentGrp = sdtGrpIterator.next();
+			String subject = studentGrp.getNombreMateria();
+			int noOfLectures = studentGrp.getDictadosPorSemana();
 			for(int i=0; i<noOfLectures; i++){
-				Collections.shuffle(classes);
-				Iterator<Lecture> classIterator = classes.iterator();
+				Collections.shuffle(clases);
+				Iterator<Dictado> classIterator = clases.iterator();
 				while(classIterator.hasNext()){
-					Lecture lecture = classIterator.next();
-					if(lecture.getSubject().equalsIgnoreCase(subject)){
-						Lecture mainLecture=new Lecture(lecture.getProfessor(), lecture.getSubject());
-						mainLecture.setStudentGroup(studentGrp);
+					Dictado lecture = classIterator.next();
+					if(lecture.getMateria().equalsIgnoreCase(subject)){
+						Dictado mainLecture=new Dictado(lecture.getDocente(), lecture.getMateria());
+						mainLecture.setGrupoEstudiantes(studentGrp);
 						lecturesStack.push(mainLecture);
 						break;
 					}
@@ -98,29 +98,29 @@ public class TimeTable {
 		}
 		while(!(lecturesStack.empty())){
 				Collections.shuffle(lecturesStack);
-				Lecture lecture2 = lecturesStack.pop();
+				Dictado lecture2 = lecturesStack.pop();
 				if(string.equalsIgnoreCase("theory")){
-					placeTheoryLecture(lecture2, rooms2);
+					ponerMateriaTeorica(lecture2, rooms2);
 				}
 				if(string.equalsIgnoreCase("practical")){
-					placePracticalLecture(lecture2, rooms2);
+					ponerMateriaPractica(lecture2, rooms2);
 				}
 		}	
 	}	
 	
 		
 	
-	private void placePracticalLecture(Lecture lecture2, ArrayList<ClassRoom> rooms2) {
+	private void ponerMateriaPractica(Dictado lecture2, ArrayList<Aula> rooms2) {
 		// TODO Auto-generated method stub
-		int size = lecture2.getStudentGroup().getSize();
-		String dept=lecture2.getStudentGroup().getDepartment();
+		int size = lecture2.getGrupoEstudiantes().getTamanio();
+		String dept=lecture2.getGrupoEstudiantes().getDepartmento();
 		int i=0;
 		boolean invalid=true;
-		ClassRoom room = null;
+		Aula room = null;
 		Collections.shuffle(rooms2);
 		while(invalid){
-		room=getBestRoom(size, rooms2);
-		if(room.getDepartment().equalsIgnoreCase(dept)){
+		room=getMejorAula(size, rooms2);
+		if(room.getDepartamento().equalsIgnoreCase(dept)){
 			invalid=false;
 			Collections.shuffle(rooms2);
 			}
@@ -128,16 +128,16 @@ public class TimeTable {
 			Collections.shuffle(rooms2);
 			}
 		}
-		ArrayList<Day> weekdays = room.getWeek().getWeekDays();
-		Iterator<Day> daysIterator=weekdays.iterator();
+		ArrayList<Dia> weekdays = room.getSemana().getDiasSemana();
+		Iterator<Dia> daysIterator=weekdays.iterator();
 		while(daysIterator.hasNext() && i<3){
-			Day day = daysIterator.next();
+			Dia day = daysIterator.next();
 			ArrayList<TimeSlot> timeslots = day.getTimeSlot();
 			Iterator<TimeSlot> timeslotIterator= timeslots.iterator();
 			while(timeslotIterator.hasNext() && i<3){
 				TimeSlot lecture3 = timeslotIterator.next();
-				if(lecture3.getLecture()==null){
-				lecture3.setLecture(lecture2);
+				if(lecture3.getDictado()==null){
+				lecture3.setDictado(lecture2);
 				i++;
 				}
 			}
@@ -146,16 +146,16 @@ public class TimeTable {
 
 
 
-	private void placeTheoryLecture(Lecture lecture, ArrayList<ClassRoom> rooms2) {
+	private void ponerMateriaTeorica(Dictado lecture, ArrayList<Aula> rooms2) {
 		// TODO Auto-generated method stub
-		int size = lecture.getStudentGroup().getSize();
-		String dept=lecture.getStudentGroup().getDepartment();
+		int size = lecture.getGrupoEstudiantes().getTamanio();
+		String dept=lecture.getGrupoEstudiantes().getDepartmento();
 		boolean invalid=true;
-		ClassRoom room = null;
+		Aula room = null;
 		Collections.shuffle(rooms2);
 		while(invalid){
-			room=getBestRoom(size, rooms2);
-			if(room.getDepartment().equalsIgnoreCase(dept)){
+			room=getMejorAula(size, rooms2);
+			if(room.getDepartamento().equalsIgnoreCase(dept)){
 				invalid=false;
 				Collections.shuffle(rooms2);
 				}
@@ -163,16 +163,16 @@ public class TimeTable {
 				Collections.shuffle(rooms2);
 				}
 			}
-		ArrayList<Day> weekdays = room.getWeek().getWeekDays();
-		Iterator<Day> daysIterator=weekdays.iterator();
+		ArrayList<Dia> weekdays = room.getSemana().getDiasSemana();
+		Iterator<Dia> daysIterator=weekdays.iterator();
 		while(daysIterator.hasNext()){
-			Day day = daysIterator.next();
+			Dia day = daysIterator.next();
 			ArrayList<TimeSlot> timeslots = day.getTimeSlot();
 			Iterator<TimeSlot> timeslotIterator= timeslots.iterator();
 			while(timeslotIterator.hasNext()){
 				TimeSlot lecture2 = timeslotIterator.next();
-				if(lecture2.getLecture()==null){
-				lecture2.setLecture(lecture);
+				if(lecture2.getDictado()==null){
+				lecture2.setDictado(lecture);
 				return;				
 				}
 			}
@@ -181,20 +181,20 @@ public class TimeTable {
 
 
 
-	private boolean checkOccupiedRoom(ClassRoom tempRoom, ArrayList<ClassRoom> rooms2) {
+	private boolean chequearAulaOcupada(Aula tempRoom, ArrayList<Aula> rooms2) {
 		// TODO Auto-generated method stub
-		for (Iterator<ClassRoom> roomsIterator = rooms2.iterator(); roomsIterator.hasNext();){
-			ClassRoom room = roomsIterator.next();
+		for (Iterator<Aula> roomsIterator = rooms2.iterator(); roomsIterator.hasNext();){
+			Aula room = roomsIterator.next();
 			if(room.equals(tempRoom)){
-			ArrayList<Day> weekdays = room.getWeek().getWeekDays();
-			Iterator<Day> daysIterator=weekdays.iterator();
+			ArrayList<Dia> weekdays = room.getSemana().getDiasSemana();
+			Iterator<Dia> daysIterator=weekdays.iterator();
 			while(daysIterator.hasNext()){
-				Day day = daysIterator.next();
+				Dia day = daysIterator.next();
 				ArrayList<TimeSlot> timeslots = day.getTimeSlot();
 				Iterator<TimeSlot> timeslotIterator= timeslots.iterator();
 				while(timeslotIterator.hasNext()){
 					TimeSlot lecture = timeslotIterator.next();
-					if(lecture.getLecture()==null){
+					if(lecture.getDictado()==null){
 						return false;
 					}
 				}
@@ -207,14 +207,14 @@ public class TimeTable {
 
 
 
-	private ClassRoom getBestRoom(int size, ArrayList<ClassRoom> rooms2) {
+	private Aula getMejorAula(int size, ArrayList<Aula> rooms2) {
 		// TODO Auto-generated method stub
 		int delta = 1000;
-		ClassRoom room = null;
-		for (Iterator<ClassRoom> roomsIterator = rooms2.iterator(); roomsIterator.hasNext();){
-			ClassRoom tempRoom = roomsIterator.next();
-			if(!checkOccupiedRoom(tempRoom, rooms2)){
-		        int tmp = Math.abs(size - tempRoom.getSize());
+		Aula room = null;
+		for (Iterator<Aula> roomsIterator = rooms2.iterator(); roomsIterator.hasNext();){
+			Aula tempRoom = roomsIterator.next();
+			if(!chequearAulaOcupada(tempRoom, rooms2)){
+		        int tmp = Math.abs(size - tempRoom.getTamanio());
 		        if(tmp < delta){
 		            delta = tmp;
 		            room = tempRoom;
@@ -228,7 +228,7 @@ public class TimeTable {
 ////		ArrayList<Combination> combinations=new ArrayList<>();
 ////		
 ////			for(Iterator<Combination> combItr = combinations2.iterator(); combItr.hasNext();){
-////				 Combination comb = combItr.next();
+////				 Combinacion comb = combItr.next();
 ////				if(!combinations.contains(comb)){
 ////					combinations.add(comb);
 ////				}
@@ -236,26 +236,26 @@ public class TimeTable {
 //		
 //		
 ////		for(Iterator<Combination> combIterator = combinations2.iterator(); combIterator.hasNext();){
-////			Combination combtn = combIterator.next();
-////			personalTimeTable.put(combtn, new Week());
+////			Combinacion combtn = combIterator.next();
+////			personalTimeTable.put(combtn, new Semana());
 ////		}
 //		
 //		for(Iterator<Combination> combIterator = combinations2.iterator(); combIterator.hasNext();){
-//			Combination combtn = combIterator.next();
-//			for (Iterator<ClassRoom> roomsIterator = theoryRooms.iterator(); roomsIterator.hasNext();){
-//				ClassRoom room=roomsIterator.next();
+//			Combinacion combtn = combIterator.next();
+//			for (Iterator<ClassRoom> roomsIterator = aulasTeoricas.iterator(); roomsIterator.hasNext();){
+//				Aula room=roomsIterator.next();
 //				Iterator<Day> daysIterator = room.getWeek().getWeekDays().iterator();
 //				while(daysIterator.hasNext()){
-//					Day day = daysIterator.next();
+//					Dia day = daysIterator.next();
 //					ArrayList<TimeSlot> timeslots = day.getTimeSlot();
 //					Iterator<TimeSlot> timeslotIterator= timeslots.iterator();
 //					while(timeslotIterator.hasNext()){
 //						TimeSlot lecture = timeslotIterator.next();
-//						if(lecture.getLecture()==null){
+//						if(lecture.getDictado()==null){
 //							System.out.print(" free ");
 //						}
-//						else if(lecture.getLecture().getStudentGroup().getCombination().contains(combtn)){
-//							System.out.print("###Room="+room.getRoomNo()/*+" Day="+day.getName()+" Time="+lecture.getSlotTime()*/+" Professor="+lecture.getLecture().getProfessor()+" Subject="+lecture.getLecture().getSubject());
+//						else if(lecture.getDictado().getStudentGroup().getCombinaciones().contains(combtn)){
+//							System.out.print("###Room="+room.getID()/*+" Dia="+day.getName()+" Time="+lecture.getSlotTime()*/+" Docente="+lecture.getDictado().getProfessor()+" Subject="+lecture.getDictado().getSubject());
 //						}
 //						else{
 //							System.out.print(" free ");
@@ -267,12 +267,12 @@ public class TimeTable {
 //		}
 //	}
 	
-//	private void putInPersonalTimeTable(Combination combtn, String roomNo, String name, TimeSlot lecture) {
+//	private void putInPersonalTimeTable(Combinacion combtn, String roomNo, String name, TimeSlot lecture) {
 //		// TODO Auto-generated method stub
-//		Week week = personalTimeTable.get(combtn);
+//		Semana week = personalTimeTable.get(combtn);
 //		Iterator<Day> daysIterator=week.getWeekDays().iterator();
 //		while(daysIterator.hasNext()){
-//			Day day = daysIterator.next();
+//			Dia day = daysIterator.next();
 //			if(day.getName().equalsIgnoreCase(name)){
 //				Iterator<TimeSlot> timeslotIterator=day.getTimeSlot().iterator();
 //				while(timeslotIterator.hasNext()){
@@ -286,7 +286,7 @@ public class TimeTable {
 
 	//creates random assignment of lecture using lecture objects, subjects and number of lectures per week to a room
 	
-//	private ClassRoom randomTimetable(ClassRoom room, ArrayList<Subject> subjectsTaught, ArrayList<Lecture> lectureList) {
+//	private Aula randomTimetable(Aula room, ArrayList<Subject> subjectsTaught, ArrayList<Lecture> lectureList) {
 //		Iterator subIterator=subjectsTaught.iterator();
 //		Stack<Lecture> lecturesStack=new Stack();
 //		while(subIterator.hasNext()){
@@ -296,9 +296,9 @@ public class TimeTable {
 //				Collections.shuffle(lectureList);
 //				Iterator<Lecture> classIterator = lectureList.iterator();
 //				while(classIterator.hasNext()){
-//					Lecture getLecture = classIterator.next();
-//					if(getLecture.getSubject().equalsIgnoreCase(subject.getSubjectName())){
-//						lecturesStack.push(getLecture);
+//					Dictado getDictado = classIterator.next();
+//					if(getDictado.getSubject().equalsIgnoreCase(subject.getSubjectName())){
+//						lecturesStack.push(getDictado);
 //						break;
 //					}
 //				}
@@ -309,12 +309,12 @@ public class TimeTable {
 //		ArrayList<Day> weekdays = room.getWeek().getWeekDays();
 //		Iterator<Day> daysIterator=weekdays.iterator();
 //		while(daysIterator.hasNext()){
-//			Day day = daysIterator.next();
+//			Dia day = daysIterator.next();
 //			ArrayList<TimeSlot> timeslots = day.getTimeSlot();
 //			Iterator timeslotIterator= timeslots.iterator();
 //			while(timeslotIterator.hasNext() && !(lecturesStack.isEmpty())){
 //				TimeSlot lecture = (TimeSlot) timeslotIterator.next();
-//				lecture.setLecture(lecturesStack.pop());
+//				lecture.setDictado(lecturesStack.pop());
 //				Collections.shuffle(lecturesStack);
 //			}
 //		}		
@@ -323,59 +323,59 @@ public class TimeTable {
 		
 	
 
-	public ArrayList<ClassRoom> getRoom() {
-		return rooms;
+	public ArrayList<Aula> getAulas() {
+		return aulas;
 	}
 
-	public void setRoom(ArrayList<ClassRoom> room) {
-		this.rooms = room;
-	}
-
-
-
-	public ArrayList<ClassRoom> getPracticalRooms() {
-		return practicalRooms;
+	public void setAulas(ArrayList<Aula> room) {
+		this.aulas = room;
 	}
 
 
 
-	public void setPracticalRooms(ArrayList<ClassRoom> practicalRooms) {
-		this.practicalRooms = practicalRooms;
+	public ArrayList<Aula> getAulasPracticas() {
+		return aulasPracticas;
 	}
 
 
 
-	public ArrayList<ClassRoom> getTheoryRooms() {
-		return theoryRooms;
+	public void setAulasPracticas(ArrayList<Aula> aulasPracticas) {
+		this.aulasPracticas = aulasPracticas;
 	}
 
 
 
-	public void setTheoryRooms(ArrayList<ClassRoom> theoryRooms) {
-		theoryRooms = theoryRooms;
+	public ArrayList<Aula> getAulasTeoricas() {
+		return aulasTeoricas;
 	}
 
 
 
-	public ArrayList<StudentGroups> getTheoryStudentGroups() {
-		return theoryStudentGroups;
+	public void setAulasTeoricas(ArrayList<Aula> aulasTeoricas) {
+		aulasTeoricas = aulasTeoricas;
 	}
 
 
 
-	public void setTheoryStudentGroups(ArrayList<StudentGroups> theoryStudentGroups) {
-		this.theoryStudentGroups = theoryStudentGroups;
+	public ArrayList<GruposAlumnos> getGruposAlumnosTeoricos() {
+		return gruposAlumnosTeoricos;
 	}
 
 
 
-	public ArrayList<StudentGroups> getPracticalStudentGroups() {
-		return practicalStudentGroups;
+	public void setGruposAlumnosTeoricos(ArrayList<GruposAlumnos> gruposAlumnosTeoricos) {
+		this.gruposAlumnosTeoricos = gruposAlumnosTeoricos;
 	}
 
 
 
-	public void setPracticalStudentGroups(ArrayList<StudentGroups> practicalStudentGroups) {
-		this.practicalStudentGroups = practicalStudentGroups;
+	public ArrayList<GruposAlumnos> getGruposAlumnosPracticos() {
+		return gruposAlumnosPracticos;
+	}
+
+
+
+	public void setGruposAlumnosPracticos(ArrayList<GruposAlumnos> gruposAlumnosPracticos) {
+		this.gruposAlumnosPracticos = gruposAlumnosPracticos;
 	}
 }

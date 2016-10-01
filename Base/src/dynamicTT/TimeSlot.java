@@ -2,7 +2,7 @@ package dynamicTT;
 
 public class TimeSlot {
 	//private int slotTime;
-	private Lecture lecture;
+	private Dictado lecture;
 	
 //	public TimeSlot(int t){
 //		this.setSlotTime(t);
@@ -16,11 +16,11 @@ public class TimeSlot {
 //		this.slotTime = slotTime;
 //	}
 
-	public Lecture getLecture() {
+	public Dictado getDictado() {
 		return lecture;
 	}
 
-	public void setLecture(Lecture lecture) {
+	public void setDictado(Dictado lecture) {
 		this.lecture = lecture;
 	}
 }

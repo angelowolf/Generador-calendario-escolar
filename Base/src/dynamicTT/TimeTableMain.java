@@ -15,7 +15,7 @@ public class TimeTableMain {
 		
 		//Program starts................
 		System.out.println("Start.......");
-	        Initialization initialize=new Initialization();       
+	        Inicializacion initialize=new Inicializacion();       
 	        initialize.readInput();
 	}
 }

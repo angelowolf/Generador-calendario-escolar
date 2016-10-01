@@ -116,22 +116,22 @@ public class GeneticAlgorithm {
     }
 
     public static void fitness(TimeTable timetable) {
-        ArrayList<ClassRoom> rooms = timetable.getRoom();
-        Iterator<ClassRoom> roomIterator1 = rooms.iterator();
+        ArrayList<Aula> rooms = timetable.getAulas();
+        Iterator<Aula> roomIterator1 = rooms.iterator();
         while (roomIterator1.hasNext()) {
             int score = 0;
-            ClassRoom room1 = roomIterator1.next();
-            Iterator<ClassRoom> roomIterator2 = rooms.iterator();
+            Aula room1 = roomIterator1.next();
+            Iterator<Aula> roomIterator2 = rooms.iterator();
             while (roomIterator2.hasNext()) {
-                ClassRoom room2 = roomIterator2.next();
+                Aula room2 = roomIterator2.next();
                 if (room2 != room1) {
-                    ArrayList<Day> weekdays1 = room1.getWeek().getWeekDays();
-                    ArrayList<Day> weekdays2 = room2.getWeek().getWeekDays();
-                    Iterator<Day> daysIterator1 = weekdays1.iterator();
-                    Iterator<Day> daysIterator2 = weekdays2.iterator();
+                    ArrayList<Dia> weekdays1 = room1.getSemana().getDiasSemana();
+                    ArrayList<Dia> weekdays2 = room2.getSemana().getDiasSemana();
+                    Iterator<Dia> daysIterator1 = weekdays1.iterator();
+                    Iterator<Dia> daysIterator2 = weekdays2.iterator();
                     while (daysIterator1.hasNext() && daysIterator2.hasNext()) {
-                        Day day1 = daysIterator1.next();
-                        Day day2 = daysIterator2.next();
+                        Dia day1 = daysIterator1.next();
+                        Dia day2 = daysIterator2.next();
                         ArrayList<TimeSlot> timeslots1 = day1.getTimeSlot();
                         ArrayList<TimeSlot> timeslots2 = day2.getTimeSlot();
                         Iterator<TimeSlot> timeslotIterator1 = timeslots1.iterator();
@@ -139,20 +139,20 @@ public class GeneticAlgorithm {
                         while (timeslotIterator1.hasNext() && timeslotIterator2.hasNext()) {
                             TimeSlot lecture1 = timeslotIterator1.next();
                             TimeSlot lecture2 = timeslotIterator2.next();
-                            if (lecture1.getLecture() != null && lecture2.getLecture() != null) {
-//							String subject1=lecture1.getLecture().getSubject();
-//							String subject2=lecture2.getLecture().getSubject();							
-                                String professorName1 = lecture1.getLecture().getProfessor().getProfessorName();
-                                String professorName2 = lecture2.getLecture().getProfessor().getProfessorName();
-                                String stgrp1 = lecture1.getLecture().getStudentGroup().getName();
-                                String stgrp2 = lecture2.getLecture().getStudentGroup().getName();
+                            if (lecture1.getDictado() != null && lecture2.getDictado() != null) {
+//							String subject1=lecture1.getDictado().getSubject();
+//							String subject2=lecture2.getDictado().getSubject();							
+                                String professorName1 = lecture1.getDictado().getDocente().getNombre();
+                                String professorName2 = lecture2.getDictado().getDocente().getNombre();
+                                String stgrp1 = lecture1.getDictado().getGrupoEstudiantes().getNombre();
+                                String stgrp2 = lecture2.getDictado().getGrupoEstudiantes().getNombre();
                                 if (stgrp1.equals(stgrp2) || professorName1.equals(professorName2)) {
                                     score = score + 1;
                                 }
-                                ArrayList<Combination> stcomb1 = lecture1.getLecture().getStudentGroup().getCombination();
-                                Iterator<Combination> stcombItr = stcomb1.iterator();
+                                ArrayList<Combinacion> stcomb1 = lecture1.getDictado().getGrupoEstudiantes().getCombinaciones();
+                                Iterator<Combinacion> stcombItr = stcomb1.iterator();
                                 while (stcombItr.hasNext()) {
-                                    if (lecture2.getLecture().getStudentGroup().getCombination().contains(stcombItr.next())) {
+                                    if (lecture2.getDictado().getGrupoEstudiantes().getCombinaciones().contains(stcombItr.next())) {
                                         score = score + 1;
                                         break;
                                     }
@@ -170,7 +170,7 @@ public class GeneticAlgorithm {
         System.out.println("Score..................................." + timetable.getFittness());
 //		Iterator iterator = ttscore.keySet().iterator(); 
 //		while (iterator.hasNext()) {  
-//			   ClassRoom key = (ClassRoom) iterator.next();  
+//			   Aula key = (Aula) iterator.next();  
 //			   int value = (int) ttscore.get(key);  
 //			   
 //			   System.out.println("\nScore : "+value);  
@@ -181,9 +181,9 @@ public class GeneticAlgorithm {
         TimeTable mutantTimeTable = parentTimetable;
         int rnd1, rnd2;
         Random randomGenerator = new Random();
-        ArrayList<ClassRoom> presentClassroom = mutantTimeTable.getRoom();
-        for (Iterator<ClassRoom> iterator = presentClassroom.iterator(); iterator.hasNext();) {
-            ClassRoom classRoom = iterator.next();
+        ArrayList<Aula> presentClassroom = mutantTimeTable.getAulas();
+        for (Iterator<Aula> iterator = presentClassroom.iterator(); iterator.hasNext();) {
+            Aula classRoom = iterator.next();
             //for (Iterator <Day> iterator2 = classRoom.getWeek().getWeekDays().iterator(); iterator2.hasNext();) {
 
             // i have got the two days here which i have to exchange... but wat i actually 
@@ -193,9 +193,9 @@ public class GeneticAlgorithm {
             while (rnd1 != rnd2) {
                 rnd2 = randomGenerator.nextInt(5);
             }
-            ArrayList<Day> weekDays = classRoom.getWeek().getWeekDays();
-            Day day1 = weekDays.get(rnd1);
-            Day day2 = weekDays.get(rnd2);
+            ArrayList<Dia> weekDays = classRoom.getSemana().getDiasSemana();
+            Dia day1 = weekDays.get(rnd1);
+            Dia day2 = weekDays.get(rnd2);
 
             ArrayList<TimeSlot> timeSlotsOfday1 = day1.getTimeSlot();
             ArrayList<TimeSlot> timeSlotsOfday2 = day2.getTimeSlot();
@@ -218,15 +218,15 @@ public class GeneticAlgorithm {
         // let us say that we give father the priority to stay as the checker!
         // in the outer loop		
         Random randomGenerator = new Random();
-        Iterator<ClassRoom> parentTimeTableClassRooms = fatherTimeTable.getRoom().iterator();
+        Iterator<Aula> parentTimeTableClassRooms = fatherTimeTable.getAulas().iterator();
         while (parentTimeTableClassRooms.hasNext()) {
-            ClassRoom room = parentTimeTableClassRooms.next();
-            if (!room.isLaboratory()) {
-                ArrayList<Day> days = room.getWeek().getWeekDays();
+            Aula room = parentTimeTableClassRooms.next();
+            if (!room.esLaboratorio()) {
+                ArrayList<Dia> days = room.getSemana().getDiasSemana();
                 int i = 0;
                 while (i < 3) {
                     int rnd = randomGenerator.nextInt(5);
-                    Day day = days.get(rnd);
+                    Dia day = days.get(rnd);
                     Collections.shuffle(day.getTimeSlot());
                     i++;
                 }
@@ -243,13 +243,13 @@ public class GeneticAlgorithm {
         writer.append("\n\nMinimum : " + min);
         writer.append("\n\nScore : " + GlobalBestTimetable.getFittness());
         writer.append("\n\n (Subject#Professor#Student Group)");
-        ArrayList<ClassRoom> allrooms = GlobalBestTimetable.getRoom();
-        Iterator<ClassRoom> allroomsIterator = allrooms.iterator();
+        ArrayList<Aula> allrooms = GlobalBestTimetable.getAulas();
+        Iterator<Aula> allroomsIterator = allrooms.iterator();
         while (allroomsIterator.hasNext()) {
-            ClassRoom room = allroomsIterator.next();
-            writer.append("\n\nRoom Number: " + room.getRoomNo());
-            ArrayList<Day> weekdays = room.getWeek().getWeekDays();
-            Iterator<Day> daysIterator = weekdays.iterator();
+            Aula room = allroomsIterator.next();
+            writer.append("\n\nRoom Number: " + room.getID());
+            ArrayList<Dia> weekdays = room.getSemana().getDiasSemana();
+            Iterator<Dia> daysIterator = weekdays.iterator();
             Iterator<String> lectTimeItr = lectureTimings.iterator();
             writer.append("\n\nTimings: ,");
             while (lectTimeItr.hasNext()) {
@@ -258,8 +258,8 @@ public class GeneticAlgorithm {
             i = 0;
             writer.append("\nDays\n");
             while (daysIterator.hasNext()) {
-                Day day = daysIterator.next();
-                writer.append(/*Day: */"" + weekDayNames.get(i) + ",");
+                Dia day = daysIterator.next();
+                writer.append(/*Dia: */"" + weekDayNames.get(i) + ",");
                 ArrayList<TimeSlot> timeslots = day.getTimeSlot();
                 i++;
                 for (int k = 0; k < timeslots.size(); k++) {
@@ -267,8 +267,8 @@ public class GeneticAlgorithm {
                         writer.append("BREAK,");
                     }
                     TimeSlot lecture = timeslots.get(k);
-                    if (lecture.getLecture() != null) {
-                        writer.append("(" + lecture.getLecture().getSubject() + "#" + lecture.getLecture().getProfessor().getProfessorName() + "#" + lecture.getLecture().getStudentGroup().getName().split("/")[0] + ")" + ",");
+                    if (lecture.getDictado() != null) {
+                        writer.append("(" + lecture.getDictado().getMateria() + "#" + lecture.getDictado().getDocente().getNombre() + "#" + lecture.getDictado().getGrupoEstudiantes().getNombre().split("/")[0] + ")" + ",");
                     } else {
                         writer.append("FREE LECTURE,");
                     }
@@ -288,13 +288,13 @@ public class GeneticAlgorithm {
         int i = 0, j = 0;
         System.out.println("Minimum : " + min);
         System.out.println("\nScore : " + GlobalBestTimetable.getFittness());
-        ArrayList<ClassRoom> allrooms = GlobalBestTimetable.getRoom();
-        Iterator<ClassRoom> allroomsIterator = allrooms.iterator();
+        ArrayList<Aula> allrooms = GlobalBestTimetable.getAulas();
+        Iterator<Aula> allroomsIterator = allrooms.iterator();
         while (allroomsIterator.hasNext()) {
-            ClassRoom room = allroomsIterator.next();
-            System.out.println("\nRoom: " + room.getRoomNo());
-            ArrayList<Day> weekdays = room.getWeek().getWeekDays();
-            Iterator<Day> daysIterator = weekdays.iterator();
+            Aula room = allroomsIterator.next();
+            System.out.println("\nRoom: " + room.getID());
+            ArrayList<Dia> weekdays = room.getSemana().getDiasSemana();
+            Iterator<Dia> daysIterator = weekdays.iterator();
             Iterator<String> lectTimeItr = lectureTimings.iterator();
             System.out.print("\nTimings:    ");
             while (lectTimeItr.hasNext()) {
@@ -303,7 +303,7 @@ public class GeneticAlgorithm {
             i = 0;
             System.out.print("\n");
             while (daysIterator.hasNext()) {
-                Day day = daysIterator.next();
+                Dia day = daysIterator.next();
                 System.out.print("Day: " + weekDayNames.get(i));
                 ArrayList<TimeSlot> timeslots = day.getTimeSlot();
                 //Iterator<TimeSlot> timeslotIterator= timeslots.iterator();
@@ -314,9 +314,9 @@ public class GeneticAlgorithm {
                         System.out.print("       BREAK       ");
                     }
                     TimeSlot lecture = timeslots.get(k);
-                    if (lecture.getLecture() != null) {
-                        System.out.print(" (Subject: " + lecture.getLecture().getSubject() + " --> Professor: " + lecture.getLecture().getProfessor().getProfessorName() + " GrpName: " + lecture.getLecture().getStudentGroup().getName() + ")");
-//                        System.out.print("  (" + lecture.getLecture().getSubject() + "#" + lecture.getLecture().getProfessor().getProfessorName() + "#" + lecture.getLecture().getStudentGroup().getName().split("/")[0] + ")");
+                    if (lecture.getDictado() != null) {
+                        System.out.print(" (Subject: " + lecture.getDictado().getMateria() + " --> Professor: " + lecture.getDictado().getDocente().getNombre() + " GrpName: " + lecture.getDictado().getGrupoEstudiantes().getNombre() + ")");
+//                        System.out.print("  (" + lecture.getDictado().getSubject() + "#" + lecture.getDictado().getProfessor().getProfessorName() + "#" + lecture.getDictado().getStudentGroup().getName().split("/")[0] + ")");
                     } else {
                         System.out.print(" FREE LECTURE ");
                     }
@@ -332,9 +332,9 @@ public class GeneticAlgorithm {
 //						
 //						TimeSlot lecture = timeslotIterator.next();
 //						
-//						if(lecture.getLecture()!=null){
-//							//System.out.print(" (Subject: "+lecture.getLecture().getSubject()+" --> Professor: "+lecture.getLecture().getProfessor().getProfessorName()+" GrpName: "+lecture.getLecture().getStudentGroup().getName()+")");
-//								System.out.print("  ("+lecture.getLecture().getSubject()+"#"+lecture.getLecture().getProfessor().getProfessorName()+"#"+lecture.getLecture().getStudentGroup().getName().split("/")[0]+")");
+//						if(lecture.getDictado()!=null){
+//							//System.out.print(" (Subject: "+lecture.getDictado().getSubject()+" --> Docente: "+lecture.getDictado().getProfessor().getProfessorName()+" GrpName: "+lecture.getDictado().getStudentGroup().getName()+")");
+//								System.out.print("  ("+lecture.getDictado().getSubject()+"#"+lecture.getDictado().getProfessor().getProfessorName()+"#"+lecture.getDictado().getStudentGroup().getName().split("/")[0]+")");
 //							}
 //						
 //							else{
@@ -352,14 +352,14 @@ public class GeneticAlgorithm {
 //private static TimeTable[] crossOver(TimeTable fatherTimeTable,TimeTable motherTimeTable){
 //	// let us say that we give father the priority to stay as the checker!
 //	// in the outer loop		
-//	Iterator<ClassRoom> parentTimeTableClassRooms=fatherTimeTable.getRoom().iterator();		
+//	Iterator<ClassRoom> parentTimeTableClassRooms=fatherTimeTable.getAulas().iterator();		
 //	while(parentTimeTableClassRooms.hasNext()) {
-//		ClassRoom fathersClassRoom = (ClassRoom) parentTimeTableClassRooms.next();			
-//		String parentClassId=fathersClassRoom.getRoomNo();			
-//		Iterator<ClassRoom> motherTimeTableClassRooms=motherTimeTable.getRoom().iterator();			
+//		Aula fathersClassRoom = (Aula) parentTimeTableClassRooms.next();			
+//		String parentClassId=fathersClassRoom.getID();			
+//		Iterator<ClassRoom> motherTimeTableClassRooms=motherTimeTable.getAulas().iterator();			
 //		while(motherTimeTableClassRooms.hasNext()){
-//			ClassRoom mothersClassRoom = (ClassRoom) motherTimeTableClassRooms.next();				
-//			String motherClassId=mothersClassRoom.getRoomNo();				
+//			Aula mothersClassRoom = (Aula) motherTimeTableClassRooms.next();				
+//			String motherClassId=mothersClassRoom.getID();				
 //			// if both are same classes then
 //			if(motherClassId.equals(parentClassId)){
 //				// change days in them randomly!					
@@ -395,12 +395,12 @@ public class GeneticAlgorithm {
 //	TimeTable[] offsprings={fatherTimeTable,motherTimeTable};
 //	return offsprings;
 //}
-//public ClassRoom initialRandom(ClassRoom room){
+//public Aula initialRandom(Aula room){
 //ArrayList<Day> weekdays = room.getWeek().getWeekDays();
 //Iterator<Day> daysIterator=weekdays.iterator();
 //while(daysIterator.hasNext()){
 //	Collections.shuffle(subjects);
-//	Day day = daysIterator.next();
+//	Dia day = daysIterator.next();
 //	ArrayList<TimeSlot> timeslots = day.getTimeSlot();
 //	Iterator timeslotIterator= timeslots.iterator();
 //	Iterator subIterator=subjects.iterator();
