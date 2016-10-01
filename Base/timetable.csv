@@ -1,8 +1,8 @@
 
 
-Minimum : 1
+Minimum : 0
 
-Score : 1
+Score : 0
 
  (Subject#Professor#Student Group)
 
@@ -10,12 +10,12 @@ Room Number: LAB1
 
 Timings: ,9:00 A 10:00,10:00 A 11:00,11:00 A 12:00,12:00 A 13:00,13:00 A 14:00,14:00 A 15:00,15:00 A 16:00,
 Days
-lunes,(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),BREAK,(Lengua#Angelo#1B),(Lengua#Angelo#1B),(Lengua#Angelo#1B),
-martes,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
-miércoles,(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),BREAK,(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),
-jueves,(Lengua#Angelo#1B),(Lengua#Angelo#1B),(Lengua#Angelo#1B),BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
-viernes,(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),BREAK,(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),
-sábado,(Lengua#Angelo#1B),(Lengua#Angelo#1B),(Lengua#Angelo#1B),BREAK,(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),
+lunes,(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),BREAK,(Lengua#Angelo#1B),(Lengua#Angelo#1B),(Lengua#Angelo#1B),
+martes,(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),BREAK,(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),
+miércoles,(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
+jueves,(Lengua#Angelo#1B),(Lengua#Angelo#1B),(Lengua#Angelo#1B),BREAK,(Lengua#Angelo#1B),(Lengua#Angelo#1B),(Lengua#Angelo#1B),
+viernes,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
+sábado,(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),(Quimicalab#Flor#1B),BREAK,(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),(Fisicalab#Perez#1 A),
 
 
 
@@ -23,12 +23,12 @@ Room Number: E101
 
 Timings: ,9:00 A 10:00,10:00 A 11:00,11:00 A 12:00,12:00 A 13:00,13:00 A 14:00,14:00 A 15:00,15:00 A 16:00,
 Days
-lunes,(Geografia#Juan#1B),(Fisica#Perez#1 A),(Geografia#Juan#1B),BREAK,(Matematicas#Perez#1B),(Catequesis#Juan#1B),(Catequesis#Juan#1B),
-martes,(Ingles#Gomez#1 A),(Geografia#Juan#1B),(Matematicas#Perez#1B),BREAK,FREE LECTURE,(Ingles#Gomez#1 A),(Fisica#Perez#1 A),
-miércoles,(Economia#Martinez#1 A),(Musica#Benabidez#1B),(Economia#Martinez#1 A),BREAK,(Matematicas#Perez#1B),(Catequesis#Juan#1B),(Ed.Fisica#Gonzalez#1 A),
-jueves,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
-viernes,(Ed.Fisica#Gonzalez#1 A),(Catequesis#Juan#1B),(Economia#Martinez#1 A),BREAK,(Economia#Martinez#1 A),(Ingles#Gomez#1 A),(Fisica#Perez#1 A),
-sábado,(Matematicas#Perez#1B),(Ed.Fisica#Gonzalez#1 A),(Geografia#Juan#1B),BREAK,(Ingles#Gomez#1 A),(Fisica#Perez#1 A),(Ed.Fisica#Gonzalez#1 A),
+lunes,(Catequesis#Juan#1B),(Geografia#Juan#1B),(Geografia#Juan#1B),BREAK,(Matematicas#Perez#1B),(Geografia#Juan#1B),(Ingles#Gomez#1 A),
+martes,(Matematicas#Perez#1B),(Catequesis#Juan#1B),(Catequesis#Juan#1B),BREAK,(Ingles#Gomez#1 A),(Fisica#Perez#1 A),(Economia#Martinez#1 A),
+miércoles,(Fisica#Perez#1 A),(Ingles#Gomez#1 A),(Fisica#Perez#1 A),BREAK,(Economia#Martinez#1 A),FREE LECTURE,(Ed.Fisica#Gonzalez#1 A),
+jueves,(Catequesis#Juan#1B),(Geografia#Juan#1B),(Matematicas#Perez#1B),BREAK,(Ed.Fisica#Gonzalez#1 A),(Ed.Fisica#Gonzalez#1 A),(Economia#Martinez#1 A),
+viernes,(Matematicas#Perez#1B),(Fisica#Perez#1 A),(Economia#Martinez#1 A),BREAK,(Musica#Benabidez#1B),(Ingles#Gomez#1 A),(Ed.Fisica#Gonzalez#1 A),
+sábado,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
 
 
 
@@ -38,8 +38,8 @@ Timings: ,9:00 A 10:00,10:00 A 11:00,11:00 A 12:00,12:00 A 13:00,13:00 A 14:00,1
 Days
 lunes,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
 martes,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
-miércoles,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
-jueves,FREE LECTURE,(Plastica#Lopez#1 A),(Quimica#Flor#1B),BREAK,(Quimica#Flor#1B),(Quimica#Flor#1B),(Quimica#Flor#1B),
+miércoles,(Quimica#Flor#1B),(Quimica#Flor#1B),(Quimica#Flor#1B),BREAK,(Quimica#Flor#1B),(Plastica#Lopez#1 A),FREE LECTURE,
+jueves,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
 viernes,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
 sábado,FREE LECTURE,FREE LECTURE,FREE LECTURE,BREAK,FREE LECTURE,FREE LECTURE,FREE LECTURE,
 

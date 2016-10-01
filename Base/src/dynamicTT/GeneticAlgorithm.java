@@ -68,8 +68,10 @@ public class GeneticAlgorithm {
                 TimeTable tt = timetableIterator.next();
                 int score = tt.getFittness();
                 if (score < min) {
+                    System.out.println("Se encuentra un nuevo mejor global");
                     min = score;
-                    GlobalBestTimetable = tt;
+                    GlobalBestTimetable = new TimeTable(tt);
+//                    GlobalBestTimetable = tt;
                     display();
                     writeToExcelFile();
                 }
@@ -112,6 +114,7 @@ public class GeneticAlgorithm {
                 mutants.clear();
             }
         }
+//        displayMejor();
         display();
     }
 
@@ -326,6 +329,11 @@ public class GeneticAlgorithm {
             System.out.print("\n");
         }
         //System.out.println("This is grahesh&Shridatt copyright @");
+    }
+
+    private static void displayMejor() {
+        System.out.println("++++++++++++++++++++++++++++++++++++++++");
+          System.out.println("\nPuntaje : " + GlobalBestTimetable.getFittness());
     }
 }
 //					while(timeslotIterator.hasNext()){
