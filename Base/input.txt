@@ -1,0 +1,27 @@
+courses
+Physics fisica 2 AppliedPhysics N
+Chemistry quimica 2 AppliedChemistry N
+Environment ecologia 2 Appliedchemistry N
+ProfessionCommunication lengua 2 Others N
+Math matematica 2 Appliedmath N
+Mech ingles 2 Mechanical N
+studentgroups
+IstCompSci 1A 45 fisica quimica ingles ecologia matematica lengua
+IstElectronix 1B 42 fisica quimica ingles ecologia matematica lengua
+IstElectrical 1C 40 fisica quimica ingles ecologia matematica lengua
+IstCivil 1D 50 fisica quimica ingles ecologia matematica lengua
+IstMeta 1E 45 fisica quimica ingles ecologia matematica lengua
+instructors
+O.N.Singh angelo fisica
+A.Gupta flor matematica
+AKT juan quimica
+Panda celeste lengua
+Tyagi may ecologia
+SKS  chimi ingles
+classrooms
+aula_1 Electrical 60
+aula_2 Comp.Sci 40
+aula_3 Mechanical 50
+aula_4 Electronics 60
+aula_5 Electrical 60
+
