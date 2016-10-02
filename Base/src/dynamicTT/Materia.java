@@ -8,10 +8,10 @@ public class Materia {
 	private boolean eslaboratorio;
 	private String departamento;
 	
-	Materia(int id, String name, int lectures, boolean lab, String dept){
+	Materia(int id, String name, int dictadosSemanales, boolean lab, String dept){
 		this.id=id;
 		this.nombre=name;
-		this.dictadoPorSemana=lectures;
+		this.dictadoPorSemana=dictadosSemanales;
 		this.eslaboratorio=lab;
 		this.departamento=dept;
 	}

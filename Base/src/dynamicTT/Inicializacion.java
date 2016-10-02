@@ -23,7 +23,7 @@ public class Inicializacion {
         aulas.add(room1);
         Aula room2 = new Aula("E101", 20, false, "CienciasComputación");
         aulas.add(room2);
-        Aula room3 = new Aula("LAB1", 20, true, "CienciasComputación");
+        Aula room3 = new Aula("LAB1", 20, false, "CienciasComputación");
         aulas.add(room3);
 //		Aula room4 = new Aula("LAB2", 20, true);
 //		classroom.add(room4);
@@ -59,8 +59,8 @@ public class Inicializacion {
         materias.add(new Materia(3, "Ingles", 4, false, "CienciasComputación"));
         materias.add(new Materia(4, "Plastica", 1, false, "Común"));
         materias.add(new Materia(5, "Ed.Fisica", 4, false, "CienciasComputación"));
-        materias.add(new Materia(6, "Fisicalab", 3, true, "CienciasComputación"));
-        materias.add(new Materia(7, "Biologia", 3, true, "CienciasComputación"));
+        materias.add(new Materia(6, "Fisicalab", 3, false, "CienciasComputación"));
+        materias.add(new Materia(7, "Biologia", 3, false, "CienciasComputación"));
 
         System.out.println("creación de curso.......");
         Curso course1 = new Curso(courseid, courseName, materias);
@@ -79,8 +79,8 @@ public class Inicializacion {
         materias.add(new Materia(10, "Musica", 1, false, "CienciasComputación"));
         materias.add(new Materia(11, "Quimica", 4, false, "Común"));
         materias.add(new Materia(12, "Catequesis", 4, false, "CienciasComputación"));
-        materias.add(new Materia(13, "Quimicalab", 3, true, "CienciasComputación"));
-        materias.add(new Materia(14, "Lengua", 3, true, "CienciasComputación"));
+        materias.add(new Materia(13, "Quimicalab", 3, false, "CienciasComputación"));
+        materias.add(new Materia(14, "Lengua", 3, false, "CienciasComputación"));
 
         Curso course2 = new Curso(2, "1B", materias);
         course2.crearCombinacion("Matematicas/Geografia/Musica/Quimica/Catequesis/Quimicalab/Lengua/", 20);

@@ -140,22 +140,24 @@ public class GeneticAlgorithm {
                         Iterator<TimeSlot> timeslotIterator1 = timeslots1.iterator();
                         Iterator<TimeSlot> timeslotIterator2 = timeslots2.iterator();
                         while (timeslotIterator1.hasNext() && timeslotIterator2.hasNext()) {
-                            TimeSlot lecture1 = timeslotIterator1.next();
-                            TimeSlot lecture2 = timeslotIterator2.next();
-                            if (lecture1.getDictado() != null && lecture2.getDictado() != null) {
+                            TimeSlot claseAula1 = timeslotIterator1.next();
+                            TimeSlot claseAula2 = timeslotIterator2.next();
+                            if (claseAula1.getDictado() != null && claseAula2.getDictado() != null) {
 //							String subject1=lecture1.getDictado().getSubject();
 //							String subject2=lecture2.getDictado().getSubject();							
-                                String professorName1 = lecture1.getDictado().getDocente().getNombre();
-                                String professorName2 = lecture2.getDictado().getDocente().getNombre();
-                                String stgrp1 = lecture1.getDictado().getGrupoEstudiantes().getNombre();
-                                String stgrp2 = lecture2.getDictado().getGrupoEstudiantes().getNombre();
+                                String professorName1 = claseAula1.getDictado().getDocente().getNombre();
+                                String professorName2 = claseAula2.getDictado().getDocente().getNombre();
+                                String stgrp1 = claseAula1.getDictado().getGrupoEstudiantes().getNombre();
+                                String stgrp2 = claseAula2.getDictado().getGrupoEstudiantes().getNombre();
                                 if (stgrp1.equals(stgrp2) || professorName1.equals(professorName2)) {
+                                    //a un curso se le esta dando clase en dos aulas distintas al mismo tiempo
+                                    //o un profe esta dando clases en dos aulas distintas a la vez.
                                     score = score + 1;
                                 }
-                                ArrayList<Combinacion> stcomb1 = lecture1.getDictado().getGrupoEstudiantes().getCombinaciones();
-                                Iterator<Combinacion> stcombItr = stcomb1.iterator();
+                                ArrayList<Combinacion> materiasDelCurso1 = claseAula1.getDictado().getGrupoEstudiantes().getCombinaciones();
+                                Iterator<Combinacion> stcombItr = materiasDelCurso1.iterator();
                                 while (stcombItr.hasNext()) {
-                                    if (lecture2.getDictado().getGrupoEstudiantes().getCombinaciones().contains(stcombItr.next())) {
+                                    if (claseAula2.getDictado().getGrupoEstudiantes().getCombinaciones().contains(stcombItr.next())) {
                                         score = score + 1;
                                         break;
                                     }
@@ -167,17 +169,8 @@ public class GeneticAlgorithm {
                 }
             }
             timetable.setFittness(score);
-            //ttscore.put(score,timetable);
-            //System.out.println("\nScore : "+score);
         }
         System.out.println("Puntaje..................................." + timetable.getFittness());
-//		Iterator iterator = ttscore.keySet().iterator(); 
-//		while (iterator.hasNext()) {  
-//			   Aula key = (Aula) iterator.next();  
-//			   int value = (int) ttscore.get(key);  
-//			   
-//			   System.out.println("\nScore : "+value);  
-//			}  
     }
 
     private static TimeTable Mutation(TimeTable parentTimetable) {
@@ -333,7 +326,7 @@ public class GeneticAlgorithm {
 
     private static void displayMejor() {
         System.out.println("++++++++++++++++++++++++++++++++++++++++");
-          System.out.println("\nPuntaje : " + GlobalBestTimetable.getFittness());
+        System.out.println("\nPuntaje : " + GlobalBestTimetable.getFittness());
     }
 }
 //					while(timeslotIterator.hasNext()){
